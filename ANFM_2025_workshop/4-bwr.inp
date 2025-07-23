@@ -1,0 +1,84 @@
+[CASEID]
+  title '10x10 GE-14 Lattice: 0.0% void'
+
+[STATE]
+  power               100.0
+  tinlet              600.0 K
+  tfuel               900.0 K
+  pressure             1040 ! psia Ref. 5
+  sym                  full
+  feedback              off
+  thexp                 off
+  void                  0.0
+
+[CORE]
+  reactor_type          BWR
+  size                    1
+  apitch              15.24 
+  height                1.0
+  rated           0.0122 0.01 
+  core_shape
+      1
+  assm_map
+     ASSY1
+
+  bc_rad         reflecting
+  bc_top         reflecting
+  bc_bot         reflecting
+
+  mat            zr2 6.56 zirc2
+  mat            zr4 6.56 zirc4
+
+[ASSEMBLY]
+  title 'GE14 lattice'
+  npin                   10
+  ppitch                1.3
+  gap            0.7549 0.7549     ! wde gap,narrow gap (cm)
+  channel_box    zr4 0.1651 0.9652 ! corner thickness, radius (cm)
+
+  fuel           U16  10.4  94.5 / 1.6 
+  fuel           U28  10.4  94.5 / 2.8
+  fuel           U32  10.4  94.5 / 3.2
+  fuel           U36  10.4  94.5 / 3.6
+  fuel           U40  10.4  94.5 / 3.95
+  fuel           U44  10.4  94.5 / 4.4
+  fuel           U49  10.4  94.5 / 4.9
+
+  fuel           U40G8 10.19  94.5 / 3.95 / gad=8.0
+  fuel           U44G6 10.19  94.5 / 4.4  / gad=6.0
+  fuel           U44G3 10.19  94.5 / 4.4  / gad=3.0
+  fuel           U49G8 10.19  94.5 / 4.9  / gad=8.0
+  fuel           U49G6 10.19  94.5 / 4.9  / gad=6.0
+
+  cell           1  0.438 0.447 0.515 / U16   he zr2
+  cell           2  0.438 0.447 0.515 / U28   he zr2
+  cell           3  0.438 0.447 0.515 / U32   he zr2
+  cell           4  0.438 0.447 0.515 / U36   he zr2
+  cell           5  0.438 0.447 0.515 / U40   he zr2
+  cell           6  0.438 0.447 0.515 / U44   he zr2
+  cell           7  0.438 0.447 0.515 / U49   he zr2
+  cell           5G 0.438 0.447 0.515 / U40G8 he zr2
+  cell           6H 0.438 0.447 0.515 / U44G6 he zr2
+  cell           7G 0.438 0.447 0.515 / U49G8 he zr2
+  cell           7H 0.438 0.447 0.515 / U49G6 he zr2
+  cell           6K 0.438 0.447 0.515 / U44G3 he zr2
+
+  ! large water rod
+   cell           WR 1.17 1.245 / mod zr4 / large4
+
+  lattice  LAT
+    1
+    2  2
+    3  3  6K
+    5  5  6   7G
+    5  4  7H  5  7
+    5  5G 6   WR WR 7
+    5  5  6H  WR WR 7  7
+    5  6H 6   7  7  7  7G 7
+    5  5  6H  7  7  7G 7  7G 7
+    2  5  7   7  7  7  7  7  7  3
+
+  axial  ASSY1  0.0 LAT 1.0
+
+[MPACT]
+  num_angle  -8

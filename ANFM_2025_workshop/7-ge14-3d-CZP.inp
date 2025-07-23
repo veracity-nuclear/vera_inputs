@@ -1,0 +1,293 @@
+[CASEID]
+  title '3D GE-14 Bundle at CZP'
+
+[STATE]
+  power         0.0
+  tinlet      293.6 K
+  tfuel       293.6 K
+  pressure    14.6959 ! 1 atm
+  sym          full
+  thexp         off
+  feedback      off
+  void          0.0
+
+[CORE]
+  reactor_type          BWR
+  size                    1
+  apitch              15.24 
+  height           413.6263
+  rated            4.50 0.1 ! estimate using ABWR data assume 10% bypass flow
+  core_shape
+      1
+  assm_map
+     GE14
+
+  bc_rad         reflecting
+
+  mat            zr2 6.56 zirc2
+  mat            zr4 6.56 zirc4
+
+  lower_ref  ss 10.0584 0.13
+
+[ASSEMBLY]
+  title "GE14 (best estimate) Bundle"
+  npin        10
+  ppitch      1.3
+  gap         0.7549 0.7549
+  channel_box zr4 0.1651 0.9652 
+
+  fuel           UNAT 10.4  94.5 / 0.71
+  fuel           U16  10.4  94.5 / 1.6
+  fuel           U28  10.4  94.5 / 2.8
+  fuel           U32  10.4  94.5 / 3.2
+  fuel           U36  10.4  94.5 / 3.6
+  fuel           U40  10.4  94.5 / 3.95
+  fuel           U44  10.4  94.5 / 4.4
+  fuel           U49  10.4  94.5 / 4.9
+
+  fuel           U40G8 10.19  94.5 / 3.95 / gad=8.0
+  fuel           U44G6 10.19  94.5 / 4.4  / gad=6.0
+  fuel           U44G3 10.19  94.5 / 4.4  / gad=3.0
+  fuel           U49G8 10.19  94.5 / 4.9  / gad=8.0
+  fuel           U49G6 10.19  94.5 / 4.9  / gad=6.0
+  fuel           U44G8 10.19  94.5 / 4.4  / gad=8.0
+
+  cell           N  0.438 0.447 0.515 / UNAT  he zr2
+  cell           1  0.438 0.447 0.515 / U16   he zr2
+  cell           2  0.438 0.447 0.515 / U28   he zr2
+  cell           3  0.438 0.447 0.515 / U32   he zr2
+  cell           4  0.438 0.447 0.515 / U36   he zr2
+  cell           5  0.438 0.447 0.515 / U40   he zr2
+  cell           6  0.438 0.447 0.515 / U44   he zr2
+  cell           7  0.438 0.447 0.515 / U49   he zr2
+  cell           5G 0.438 0.447 0.515 / U40G8 he zr2
+  cell           6H 0.438 0.447 0.515 / U44G6 he zr2
+  cell           7G 0.438 0.447 0.515 / U49G8 he zr2
+  cell           7H 0.438 0.447 0.515 / U49G6 he zr2
+  cell           6K 0.438 0.447 0.515 / U44G3 he zr2
+  cell           6G 0.438 0.447 0.515 / U44G8 he zr2
+
+  cell           WR 1.17 1.245 / mod zr4 / large4 
+
+  cell           P       0.447 0.515 / he zr2  ! plenum
+  cell           B             0.515 / zr2     ! plugs
+  cell           T             0.343 / zr2
+  cell           V             0.515 / cool    ! vanished rod
+
+  lattice NAT
+   N
+   N  N
+   N  N  N
+   N  N  N  N
+   N  N  N  N  N
+   N  N  N WR WR  N
+   N  N  N WR WR  N  N
+   N  N  N  N  N  N  N  N
+   N  N  N  N  N  N  N  N  N
+   N  N  N  N  N  N  N  N  N  N
+
+  lattice DOM
+    1
+    2  2
+    3  3  6K
+    5  5  6   7G
+    5  4  7H  5  7
+    5  5G 6   WR WR 7
+    5  5  6H  WR WR 7  7
+    5  6H 6   7  7  7  7G 7
+    5  5  6H  7  7  7G 7  7G 7
+    2  5  7   7  7  7  7  7  7  3
+
+  lattice PSZ
+    1
+    2  2
+    3  3  6K
+    5  5  6   7G
+    5  4  7G  5  7
+    5  5G 6   WR WR 7
+    5  5  6G  WR WR 7  7
+    5  6G 6   7  7  7  7G 7
+    5  5  6G  7  7  7G 7  7G 7
+    2  5  7   7  7  7  7  7  7  3
+
+  lattice PLE
+    1
+    2  P
+    3  3  6
+    5  P  6   7G
+    5  4  7H  5  P
+    5  5  6   WR WR P
+    5  P  6H  WR WR 7  7
+    5  6H 6   7  7  7  7G 7
+    5  P  6H  P  7  7G P  7G P
+    2  5  7   7  7  7  7  7  7  3
+
+  lattice VAN
+    1
+    2  V
+    3  3  6
+    5  V  6   7G
+    5  4  7H  5  V
+    5  5  6   WR WR V
+    5  V  6H  WR WR 7G 7
+    5  6H 6   7  7  7  7  7
+    5  V  6H  V  7  7G V  7G V
+    2  5  7   7  7  7  7  7  7  3
+
+  lattice NV
+    N
+    N  V
+    N  N  N
+    N  V  N  N
+    N  N  N  N  V
+    N  N  N WR WR  V
+    N  V  N WR WR  N  N
+    N  N  N  N  N  N  N  N
+    N  V  N  V  N  N  V  N  V
+    N  N  N  N  N  N  N  N  N  N
+
+  lattice NT
+    N
+    N  V
+    N  N  P
+    N  V  N  P
+    N  N  P  N  V
+    N  P  N WR WR  V
+    N  V  P WR WR  P  N
+    N  P  N  N  N  N  P  N
+    N  V  P  V  N  P  V  P  V
+    N  N  N  N  N  N  N  N  N  N
+
+  lattice PLEN
+    P
+    P  V
+    P  P  P
+    P  V  P  P
+    P  P  P  P  V
+    P  P  P WR WR  V
+    P  V  P WR WR  P  P
+    P  P  P  P  P  P  P  P
+    P  V  P  V  P  P  V  P  V
+    P  P  P  P  P  P  P  P  P  P
+
+  lattice PLUG
+    B
+    B  B
+    B  B  B
+    B  B  B  B
+    B  B  B  B  B
+    B  B  B  V  V  B
+    B  B  B  V  V  B  B
+    B  B  B  B  B  B  B  B
+    B  B  B  B  B  B  B  B  B
+    B  B  B  B  B  B  B  B  B  B
+
+  lattice PLP
+    1
+    2  T
+    3  3  6
+    5  T  6   7G
+    5  4  7H  5  T
+    5  5  6   WR WR  T
+    5  T  6H  WR WR  7  7
+    5  6H 6   7  7  7  7G  7
+    5  T  6H  T  7  7G T  7G T
+    2  5  7   7  7  7  7  7  7  3
+
+  lattice TPLUG
+    T
+    T  V
+    T  T  T
+    T  V  T  T
+    T  T  T  T  V
+    T  T  T  V  V  V
+    T  V  T  V  V  T  T
+    T  T  T  T  T  T  T  T
+    T  V  T  V  T  T  V  T  V
+    T  T  T  T  T  T  T  T  T  T
+
+  axial GE14             7.1120
+               PLUG      8.6995
+               NAT       23.9395
+               PSZ      145.8595
+               DOM      222.0595
+               PLE      250.4059
+               PLP      252.5395
+               VAN      347.1291
+               NV       362.3691
+               NT       377.6091
+               PLEN     403.0091
+               TPLUG    405.1427
+
+  grid MID zirc4 4.1275 348 
+
+  grid_axial
+    MID  33.34390
+    MID  82.63260
+    MID 131.92130
+    MID 181.21000
+    MID 230.49870
+    MID 279.78740
+    MID 329.07610
+    MID 379.67285
+
+  lower_nozzle ss 7.1120 2392 ! mat, height, mass (g)
+  upper_nozzle ss 8.4836 1200 ! mat, height, mass (g)
+
+[EDITS]
+  axial_edit_bounds
+     8.6995
+    16.3195
+    23.9395
+    31.28015
+    35.40765
+    46.6979
+    57.9882
+    69.2785
+    80.56885
+    84.69635
+    93.0000
+   102.0000
+   111.0000
+   120.0000
+   129.85755
+   133.98505
+   139.9223
+   145.8595
+   156.0000
+   168.0000
+   179.14625
+   183.27375
+   191.0000
+   200.0000
+   209.0000
+   218.0000
+   222.0595
+   228.43495
+   232.56245
+   240.0000
+   250.4059
+   252.5395
+   262.0000
+   270.0000
+   277.72365
+   281.85115
+   290.0000
+   300.0000
+   310.0000
+   320.0000
+   327.01235
+   331.13985
+   340.0000
+   347.1291
+   354.7491
+   362.3691
+   369.9891
+   377.6091
+
+[MPACT]
+  num_space              48
+  grid_treatment homogenize
+
+[RUN]
+  walltime 0.2
