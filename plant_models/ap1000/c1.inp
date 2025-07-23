@@ -1,0 +1,913 @@
+!---------------------------------------------------------------------------------
+! References:
+!
+! 1. AP1000 Core Reference Report, WCAP-17524-NP, Appendix E, Rev. 1, WEC, 2014.
+!     NRC ML14111A389, https://www.nrc.gov/docs/ML1411/ML14111A389.pdf
+!
+! 2. Vogtle 3&4 UFSAR, NRC ML18179A278, https://www.nrc.gov/docs/ML1817/ML18179A278.pdf
+!
+! 3. Westinghouse Test Stand: Zero Power Physics Test Simulations for the 
+!     AP1000(R) PWR, CASL-U-2014-0012-000 (WEC# MT-14-12), CASL, March, 2014.
+! 
+! 4. AP1000 PWR Cycle 1 and 18-month equilibrium cycle Startup and Depletion
+!     Benchmark, CASL-U-2017-1426-000, CASL, December 31, 2017.
+!
+! 5. VERA Core Physics Benchmark Progression Problem Specifications, 
+!     CASL-U-2012-0131-004, Revision 4, CASL, August 29, 2014.
+!
+! 6. AP1000 Design Control Document, Rev. 19, NRC ML11171A453
+!
+! 7. Baek, Seung-Heon, et. al., Effect of Concentration Ratios of Ni/Fe Ions 
+!     on the Fuel Crud Deposition, Nuclear Plant Chemistry Conference 2014 
+!     (NPC 2014), Sapporo, Japan, October 26-31, 2014.
+!
+!---------------------------------------------------------------------------------
+[CASEID]
+  title 'Westinghouse AP1000(R) Cycle 1 - Public'
+
+[STATE]
+  title 'BOC HZP ARO'
+  power    0.0                                   ! %
+  flow     100.0                                 ! %
+  bypass   5.9                                   ! [1,Table 4.4-1,Note e)
+  tinlet   557 F                                 ! [1,Table 4.3-2]
+  tfuel    557 F                                 ! [1,Table 4.3-2]
+  modden   0.743                             
+  pressure 2250                                  ! [1,Table 4.4-1]
+  boron    1321                                  ! [1,Table 4.3-2, HZP ARO]
+  rodbank  MA 264                                ! [3,Appx. G]
+           MB 264
+           MC 264
+           MD 264
+           M1 264
+           M2 264
+           AO 264
+           S1 264
+           S2 264
+           S3 264
+           S4 264
+
+  sym      qtr
+  thexp    on
+  feedback on
+  search   boron
+
+[STATE] 
+  title 'BOC HFP Depletion'
+  power  100.0
+  tinlet 535 F                                   ! [1,Table 4.4-1]
+  xenon  equil
+  rodbank MA 90  MD 264 AO 250                   ! [4,Table 3-1]
+
+[STATE] deplete GWDMT  0.15 
+[STATE] deplete GWDMT  0.5 
+[STATE] deplete GWDMT  1.0
+[STATE]                      rodbank MA 264 MD 90
+[STATE] deplete GWDMT  2.0  
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT  3.0     
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT  4.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT  5.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT  6.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT  7.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT  8.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT  9.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT 10.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT 11.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT 12.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT 13.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT 14.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT 15.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT 16.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT 17.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT 18.0                          
+[STATE]                      rodbank MA 90  MD 264
+[STATE] deplete GWDMT 19.0                          
+[STATE]                      rodbank MA 264 MD 90 
+[STATE] deplete GWDMT 20.0    
+[STATE] deplete GWDMT 20.608
+  restart_write c1.res EOC
+  op_date 1/1/2023                                ! arbitrary
+
+[CORE]     
+  name   AP1000
+  unit   1
+  cycle  1
+  size   15                                      ! [1,Figure 4.3-1]
+  apitch 21.50364                                ! [1,Figure 4.2-1]
+  height 479.9                                   ! see below - top of GAP plus upper nozzle height
+  rated  3400 113.5                              ! [1,Table 4.4-1]
+  bc_sym rot                                   
+
+  xlabel  R P N M L K J H G  F  E  D  C  B  A    ! [1,Figure 4.3-1]
+  ylabel  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15    ! [1,Figure 4.3-1]
+
+  core_shape                                     ! [1,Figure 4.3-1]
+    0 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+    0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+    0 0 0 1 1 1 1 1 1 1 1 1 0 0 0
+    0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 1 1 1 1 1 1 1 1 1 0 0 0
+    0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+    0 0 0 0 0 0 1 1 1 0 0 0 0 0 0
+
+  assm_map                                       ! [1,Figure 4.3-1]
+    2                                            !  1 - 0.74%
+    4  2                                         !  2 - 1.58%
+    2  4  2                                      !  3 - 3.20%
+    4  2  4  2                                   !  4 - 3.776%
+    2  4  2  6  2                                !  5 - 4.376%,  88 IFBA [1.Figure 4.3-5]
+    4  2  6  3  3                                !  6 - 4.376%, 124 IFBA [1.Figure 4.3-5]
+    6  5  3  1
+    3  1
+
+  insert_map                                     ! [1,Figure 4.3-5]
+    -
+    12W -
+    -   12W -
+    12W -   12W -
+    -   12W -   8W  -
+    12W -   8W  - -
+    -   4W  -  -
+    -   -
+
+!  insert_map              -   -   -             ! [1,Figure 4.3-5] - full symmetry
+!                  -   -  4W   -  4W   -   -      
+!             SSA  -  8W   - 12WPN -  8W   -   -     
+!          -   -  8W   -  12W  -  12W  -  8W   -   -    
+!      -   -  8W   -  12W  -  12W  -  12W  -  8W   -   -   
+!      -  8W   -  12W  -  12W  -  12W  -  12W  -  8W   -   
+!  -  4W   -  12W  -  12W  -  12W  -  12W  -  12W  -  4W  -  
+!  -   -  12W  -  12W  -  12W  -  12W  -  12W  -  12W  -  -  
+!  -  4W   -  12W  -  12W  -  12W  -  12W  -  12W  -  4W  -  
+!      -  8W   -  12W  -  12W  -  12W  -  12W  -  8W   -   
+!      -   -  8W   -  12W  -  12W  -  12W  -  8W   -   -   
+!          -   -  8W   -  12W  -  12W  -  8W   -   -    
+!              -   -  8W   - 12WPS -  8W   -  SSA    
+!                  -   -  4W   -  4W   -   -      
+!                          -   -   -     
+
+   crd_map                                       ! [1,Figure 4.3-27]
+     B                                           !  B - Black
+     -  B                                        !  G - Gray
+     G  -  G
+     -  B  -  B
+     B  -  B  -  G
+     -  B  -  B  -
+     G  -  B  -
+     -  -
+ 
+   crd_bank                                      ! [1,Figure 4.3-27]
+     AO
+     -  S1
+     MD -  MA
+     -  S3 -  S1
+     M1 -  AO -  MC
+     -  S2 -  M2 -
+     MB -  S4 -
+     -  -
+
+! - no reference source for incore detector locations
+
+  lower_plate ss  4.44 0.68                      ! [3,App. G]
+! upper_plate ss  7.62 0.59                      ! [3,App. G] - no needed
+  baffle      ss  0.127 2.54                     ! [3,App. G] - approximate
+  vessel      mod 169.86                         ! [2,Table 4.1-1] - core shroud rings are ignored
+              ss  174.94                         ! [2,Table 4.1-1]
+              mod 201.93                         ! [6, Table 5.3-5]
+              ss  202.49                         ! [6, Table 5.3-5] - 0.22" clad thickness
+              cs  223.52                         ! [6, Table 5.3-5]
+ 
+   pad ss  175.94 182.94 32 0 90 180 270         ! [3,Figure 4-9] Approximate.  Missing pad specs are inferred from WB1 (Ref. 5)
+                                                 ! [5,Table 16] ~1 cm gap from barrel, ~7 cm thickness, 32 degrees
+                                                 ! Does not account for tapering shown in [3,Figure 4-9]
+
+   mat zirc4 6.56 zirc4-xhf 1.0 / thexp=7.092    ! remove hafnium from SCALE zircaloy
+
+   mat zirlo     6.55       o-16  1.20000E-03    ! WEC public paper run through SCALE
+                           fe-54  5.64554E-05    ! [7,Table 2]
+                           fe-56  9.19009E-04
+                           fe-57  2.16036E-05
+                           fe-58  2.92547E-06
+                           zr-90  4.95805E-01
+                           zr-91  1.09327E-01
+                           zr-92  1.68945E-01
+                           zr-94  1.74939E-01
+                           zr-96  2.87844E-02
+                           nb-93  9.99966E-03
+                           sn-112 9.14389E-05
+                           sn-114 6.33271E-05
+                           sn-115 3.29096E-05
+                           sn-116 1.41960E-03
+                           sn-117 7.56311E-04
+                           sn-118 2.40551E-03
+                           sn-119 8.60399E-04
+                           sn-120 3.29071E-03
+                           sn-122 4.75454E-04
+                           sn-124 6.04340E-04
+                          / thexp=7.092       ! same as zirc
+
+[ASSEMBLY] 
+  title 'Westinghouse 17x17 XL Robust Fuel Assembly (RFA)'  ! [2,Table 4.1-1]
+  npin   17                                      ! [2,Table 4.1-1]
+  ppitch 1.25984                                 ! [2,Table 4.1-1]
+
+  mat ifba 3.2041  zr   0.81306                  ! [3,Table 4-1][2,Table 4.3-1] 1.96 mg/in
+                   b-10 0.09347                  ! [5,Table 12] for isotopics
+                   b-11 0.09347                  ! density calculated to produce 1.96 mg/in for this geometry
+
+  fuel U074 10.335 95.5 / 0.74                   ! enrichments from [2,Figures 4.3-1 to 4.3-4b]
+  fuel U158 10.335 95.5 / 1.58                   ! % th density from [2,Table 4.1-1]
+  fuel U320 10.335 95.5 / 3.20                   ! density approximated from total fuel weight in Ref. 2 Table 4.1-1:
+  fuel U340 10.335 95.5 / 3.40                 
+  fuel U380 10.335 95.5 / 3.80                   ! 0.366 g/ft UO2 [2,Table 4.3-1]
+  fuel U400 10.335 95.5 / 4.00                   ! p=166.01481 g/cm / (pi*0.409575^2) / (12*2.54) =10.335 g/cc
+  fuel U420 10.335 95.5 / 4.20                   ! assume central region and blanket/annular pellets have the same density
+  fuel U440 10.335 95.5 / 4.40 
+  fuel U480 10.335 95.5 / 4.80
+
+  cell A    0.19685  0.409575 0.41783 0.47498 /  he  U320 he zirlo ! annular IR from [3,App.G]
+  cell 1    0.409575          0.41783 0.47498 / U074      he zirlo ! [2,Table 4.3-1] pellet OD, clad ID/OD
+  cell 2    0.409575          0.41783 0.47498 / U158      he zirlo
+  cell 3    0.409575          0.41783 0.47498 / U320      he zirlo ! assume region 2 and region 3 blankets
+  cell 4L   0.409575          0.41783 0.47498 / U340      he zirlo
+  cell 4M   0.409575          0.41783 0.47498 / U380      he zirlo
+  cell 4H   0.409575          0.41783 0.47498 / U420      he zirlo
+  cell 4LI  0.409575 0.410575 0.41783 0.47498 / U340 ifba he zirlo ! IFBA thickness assumed to be 0.001 cm for VERA
+  cell 4MI  0.409575 0.410575 0.41783 0.47498 / U380 ifba he zirlo !  - density calculated to preserve loading
+  cell 4HI  0.409575 0.410575 0.41783 0.47498 / U420 ifba he zirlo
+  cell 5L   0.409575          0.41783 0.47498 / U400      he zirlo
+  cell 5M   0.409575          0.41783 0.47498 / U440      he zirlo
+  cell 5H   0.409575          0.41783 0.47498 / U480      he zirlo
+  cell 5LI  0.409575 0.410575 0.41783 0.47498 / U400 ifba he zirlo
+  cell 5MI  0.409575 0.410575 0.41783 0.47498 / U440 ifba he zirlo
+  cell 5HI  0.409575 0.410575 0.41783 0.47498 / U480 ifba he zirlo
+
+  cell GT                0.56134 0.61214 / mod zirlo               ! [2,Table 4.3-1] GT,IT, above dashpot
+  cell SO  0.35 0.4039   0.41783 0.47498 / he zirlo he zirlo       ! stand off tube [3,App. G]
+  cell BS  0.1  0.4039   0.41783 0.47498 / he zirlo he zirlo       ! pellet stack base [3,App.G]
+  cell PL       0.396388 0.41783 0.47498 / he ss       zirlo       ! plenum with spring, assume 10% by volume
+  cell PG                        0.47498 / zirlo                   ! plug
+  cell X                         0.47498 / mod                     ! gap
+
+  rodmap F1
+    GT
+    1  1  
+    1  1  1  
+    GT 1  1  GT
+    1  1  1  1  1  
+    1  1  1  1  1  GT
+    GT 1  1  GT 1  1  1  
+    1  1  1  1  1  1  1  1  
+    1  1  1  1  1  1  1  1  1  
+
+  rodmap F2
+    GT
+    2  2  
+    2  2  2  
+    GT 2  2  GT
+    2  2  2  2  2  
+    2  2  2  2  2  GT
+    GT 2  2  GT 2  2  2  
+    2  2  2  2  2  2  2  2  
+    2  2  2  2  2  2  2  2  2  
+
+  rodmap F3
+    GT
+    3  3  
+    3  3  3  
+    GT 3  3  GT
+    3  3  3  3  3  
+    3  3  3  3  3  GT
+    GT 3  3  GT 3  3  3  
+    3  3  3  3  3  3  3  3  
+    3  3  3  3  3  3  3  3  3  
+
+  rodmap F4_68I                                  ! [1,Figure 4.3-4]
+    GT
+    4M  4HI
+    4M  4H  4HI
+    GT  4M  4M  GT
+    4M  4H  4HI 4M  4M 
+    4M  4H  4HI 4M  4M  GT
+    GT  4M  4M  GT  4M  4M  4M 
+    4M  4M  4M  4MI 4M  4M  4M  4MI
+    4LI 4L  4LI 4L  4LI 4L  4LI 4L  4LI
+
+  rodmap B_68I                                   ! [1,Figure 4.3-4]
+    GT                                           ! assumes non-IFBA rods use solid
+    3  A                                         ! blanket pellets that are the same
+    3  3  A                                      ! as Region 3 pellets                
+    GT 3  3  GT  
+    3  3  A  3  3  
+    3  3  A  3  3  GT
+    GT 3  3  GT 3  3  3  
+    3  3  3  A  3  3  3  A  
+    A  3  A  3  A  3  A  3  A  
+
+  rodmap F5_88I                                  ! [1,Figure 4.3-4]
+    GT
+    5M  5H 
+    5M  5H  5H 
+    GT  5M  5M  GT
+    5M  5H  5HI 5M  5M 
+    5M  5H  5HI 5M  5M  GT
+    GT  5M  5M  GT  5M  5M  5M 
+    5MI 5M  5MI 5MI 5M  5M  5M  5M 
+    5LI 5LI 5LI 5LI 5LI 5LI 5L  5LI 5L 
+
+  rodmap B_88I                                   ! [1,Figure 4.3-4]
+    GT                                           ! assumes non-IFBA rods use solid
+    3  3                                         ! blanket pellets that are the same
+    3  3  3                                      ! as Region 3 pellets               
+    GT 3  3  GT
+    3  3  A  3  3  
+    3  3  A  3  3  GT
+    GT 3  3  GT 3  3  3  
+    A  3  A  A  3  3  3  3  
+    A  A  A  A  A  A  3  A  3  
+
+  rodmap F5_124I                                 ! [1,Figure 4.3-4]
+    GT
+    5M  5HI
+    5M  5H  5H 
+    GT  5M  5M  GT
+    5M  5H  5HI 5M  5M 
+    5M  5HI 5HI 5M  5M  GT
+    GT  5M  5M  GT  5MI 5M  5M 
+    5MI 5M  5MI 5MI 5M  5M  5M  5MI
+    5LI 5LI 5LI 5LI 5LI 5LI 5LI 5LI 5LI
+
+  rodmap B_124I                                  ! [1,Figure 4.3-4]
+    GT                                           ! assumes non-IFBA rods use solid
+    3  A                                         ! blanket pellets that are the same
+    3  3  3                                      ! as Region 3 pellets               
+    GT 3  3  GT
+    3  3  A  3  3  
+    3  A  A  3  3  GT
+    GT 3  3  GT A  3  3  
+    A  3  A  A  3  3  3  A  
+    A  A  A  A  A  A  A  A  A  
+
+ rodmap PLUG
+    GT
+    PG PG 
+    PG PG PG 
+    GT PG PG GT
+    PG PG PG PG PG 
+    PG PG PG PG PG GT
+    GT PG PG GT PG PG PG 
+    PG PG PG PG PG PG PG PG 
+    PG PG PG PG PG PG PG PG PG 
+
+  rodmap TUBE
+    GT
+    SO SO
+    SO SO SO
+    GT SO SO GT
+    SO SO SO SO SO
+    SO SO SO SO SO GT
+    GT SO SO GT SO SO SO
+    SO SO SO SO SO SO SO SO
+    SO SO SO SO SO SO SO SO SO
+
+  rodmap BASE
+    GT
+    BS BS
+    BS BS BS
+    GT BS BS GT
+    BS BS BS BS BS
+    BS BS BS BS BS GT
+    GT BS BS GT BS BS BS
+    BS BS BS BS BS BS BS BS
+    BS BS BS BS BS BS BS BS BS
+
+  rodmap PLEN
+    GT
+    PL PL
+    PL PL PL
+    GT PL PL GT
+    PL PL PL PL PL
+    PL PL PL PL PL GT
+    GT PL PL GT PL PL PL
+    PL PL PL PL PL PL PL PL
+    PL PL PL PL PL PL PL PL PL
+
+  rodmap GAP
+    GT
+    X  X 
+    X  X  X 
+    GT X  X  GT
+    X  X  X  X  X 
+    X  X  X  X  X  GT
+    GT X  X  GT X  X  X 
+    X  X  X  X  X  X  X  X 
+    X  X  X  X  X  X  X  X  X 
+
+! nozzle - 6.4 cm [3,App. G]
+! plug - 2.2 cm [3,App. G]
+! tube - 11.2 cm [3,App. G]
+! bottom of fuel - 5.365*2.54+6.4=20.71 [1,Figure 4.2-3] - assume bottom plug rests on nozzle
+! top of fuel - 20.71+168*2.54=447.43 [1,Figure 4.2-3]
+! top of plenum - 447.43+6.475*2.54=463.88 [1,Figure 4.2-3]
+! top of end plug - 6.4+180.440*2.54=464.72 [1,Figure 4.2-3] - assume bottom plug rests on nozzle
+! top of gap - 469.3 cm [3,App. G]
+! 8" axial blankets [2,Figure 4.3-4b] [3,Figure 4-7]
+
+  axial 1 6.4 PLUG 8.6 TUBE 19.8 BASE 20.71              F1                    447.43 PLEN 463.88 PLUG 464.72 GAP 469.3
+  axial 2 6.4 PLUG 8.6 TUBE 19.8 BASE 20.71              F2                    447.43 PLEN 463.88 PLUG 464.72 GAP 469.3
+  axial 3 6.4 PLUG 8.6 TUBE 19.8 BASE 20.71 F2     41.03 F3      427.11 F2     447.43 PLEN 463.88 PLUG 464.72 GAP 469.3 ! [2,Figure 4.3-4b] - assume blanket = Region 2
+  axial 4 6.4 PLUG 8.6 TUBE 19.8 BASE 20.71 B_68I  41.03 F4_68I  427.11 B_68I  447.43 PLEN 463.88 PLUG 464.72 GAP 469.3 ! [2,Figure 4.3-4b]
+  axial 5 6.4 PLUG 8.6 TUBE 19.8 BASE 20.71 B_88I  41.03 F5_88I  427.11 B_88I  447.43 PLEN 463.88 PLUG 464.72 GAP 469.3 ! [2,Figure 4.3-4b]
+  axial 6 6.4 PLUG 8.6 TUBE 19.8 BASE 20.71 B_124I 41.03 F5_124I 427.11 B_124I 447.43 PLEN 463.88 PLUG 464.72 GAP 469.3 ! [2,Figure 4.3-4b]
+     
+! for grids, missing data is substituted from Ref. 5, Table 3, scaling masses by strap height if necessary
+
+  grid MID    zirlo  5.716  1312           ! x 8 [2,Table 4.1-1] [2,Figure 4.2-5] [5,Table 3] - rounded to even number
+  grid IFM    zirlo  2.0    385            ! x 4 [2,Table 4.1-1] [2,Figure 4.2-6] 0.66" streched to 2 cm for MPACT
+  grid END    inc    3.866  1017           ! top and bottom [2,Table 4.1-1] [5,Table 3]
+! grid PGRID  inc    ?.?    ???.?          ! protective grid can be ignored
+
+  grid_axial
+      END    14.2                          ! grid spacing approx. at 20", with IFMs centered in between
+      MID    56.27                         ! [2,p4.4-8,Figure 4.2-2]
+      MID   107.07                         ! - end grids are assumed to be outside of the active fuel [1,Figure 4.2-2]
+      MID   157.87                         ! - the 8 intermediate grids are assumed to be axially centered with the
+      MID   208.67                         !   active fuel region, with 20" spacing
+      IFM   234.07                         ! - the 4 IFM grids are assumed to be axially centered in the 4 upper spans
+      MID   259.47                         ! - bottom end grid is assumed to be axially centered within the standoff tube [1,Figure 4.2-2]
+      IFM   284.87                         ! - top end grid is assumed to be axially centered within the upper plenum [1,Figure 4.2-2]  
+      MID   310.27                         ! - pgrid can be ignored
+      IFM   337.21                         ! 335.67 - shifted up to align with short waba
+      MID   361.07 
+      IFM   386.47 
+      MID   411.87 
+      END   455.66  
+
+  lower_nozzle ss 6.4  6000                      ! [3,App. G]
+  upper_nozzle ss 10.6 8000                      ! [3,App. G]
+
+[INSERT]
+  title 'Westinghouse Wet Annular Burnable Absorber (WABA)'
+  npin 17                                                                     ! [1,Figure 4.3-4a]
+
+  mat waba   3.65   b4c 0.0949                   ! [1,Table 4.3-1][5,p13] 6.03 mg/cm
+                  al2o3 0.9051 
+
+  cell X 0.286 0.339 0.353 0.404 0.418 0.484 / mod zirc4 he waba he zirc4  ! [1,Table 4.3-1][5,Table 13]
+  cell P 0.286 0.339             0.418 0.484 / mod zirc4         he zirc4  ! plenum
+  cell S 0.286                         0.484 / mod                  zirc4  ! plug/spacer
+
+  rodmap 4W                                      ! [1,Figure 4.3-4a]
+    -
+    - -
+    - - -
+    - - - -
+    - - - - -
+    - - - - - X
+    - - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+   rodmap 4P  
+    -
+    - -
+    - - -
+    - - - -
+    - - - - -
+    - - - - - P
+    - - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  4S
+    -
+    - -
+    - - -
+    - - - -
+    - - - - -
+    - - - - - S  
+    - - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  8W                                     ! [1,Figure 4.3-4a]
+    -
+    - -
+    - - -
+    X - - -
+    - - - - -
+    - - - - - X
+    - - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  8P
+    -
+    - -
+    - - -
+    P - - -
+    - - - - -
+    - - - - - P
+    - - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  8S
+    -
+    - -
+    - - -
+    S - - -
+    - - - - -
+    - - - - - S
+    - - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+ rodmap  12W                                     ! [1,Figure 4.3-4a]
+    -
+    - -
+    - - -
+    X - - -
+    - - - - -
+    - - - - - X
+    X - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  12P
+    -
+    - -
+    - - -
+    P - - -
+    - - - - -
+    - - - - - P
+    P - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+   rodmap  12S
+    -
+    - -
+    - - -
+    S - - -
+    - - - - -
+    - - - - - S
+    S - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  8W4S                                   ! [1,Figure 4.3-4a]
+    -
+    - -
+    - - -
+    S - - -
+    - - - - -
+    - - - - - X   
+    X - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap  8W4P
+    -
+    - -
+    - - -
+    P - - -
+    - - - - -
+    - - - - - X
+    X - - - - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  axial  4W   41.03   4S 61.35        4W        355.99              4P 469.3 ! [2,Figure 4.3-4b][3,Figure 4-7]
+  axial  8W   41.03   8S 61.35        8W        355.99              8P 469.3
+  axial 12W   41.03 8W4S       79.13 12W 338.21        8W4P 427.11 12P 469.3
+
+!-- layout of primary source rodlets (estimated)
+!   location of primary source rod within lattice is not known - assumed to be nearest to source range detectors
+
+  mat al 2.7 al-27 1.0 / thexp=22.2              ! [1,p4.2-19] approx. alumina spacers (californium is ignored)
+  cell Q   0.418 0.484 / al ss                   ! primary source rodlet (est) [1,Figure 4.2-14]
+
+ rodmap 8W4S_PN
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - S - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - X - - S - - - - - S - - X - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - S - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   
+ rodmap 12W_PN
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - X - - X - - - - - X - - X - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+  
+ rodmap 8W4P_PN
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - X - - P - - - - - P - - X - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+  
+ rodmap 12P_PN
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - P - - - - - - - - - P - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - P - - P - - - - - P - - P - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - P - - - - - - - - - P - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+  
+ rodmap 8W4S_PS
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - S - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - X - - S - - - - - S - - X - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - S - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   
+ rodmap 12W_PS
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - X - - X - - - - - X - - X - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+  
+ rodmap 8W4P_PS
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - X - - P - - - - - P - - X - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - X - - - - - - - - - X - - -  
+   - - - - - - - - X - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+  
+ rodmap 12P_PS
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - P - - - - - - - - - P - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - P - - P - - - - - P - - P - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - P - - - - - Q - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - P - - - - - - - - - P - - -  
+   - - - - - - - - P - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+   - - - - - - - - - - - - - - - - -  
+
+  axial 12WPN 41.03 8W4S_PN 79.13 12W_PN 338.21 8W4P_PN 427.11 12P_PN 469.3 ! see previous axial elevations for symmetric WABA
+  axial 12WPS 41.03 8W4S_PS 79.13 12W_PS 338.21 8W4P_PS 427.11 12P_PS 469.3
+
+[CONTROL]
+  title 'AIC Black rods and Tungsten Gray rods with SS tips'
+  npin    17
+  stroke  419.1 264                                     ! [5,Table8] assume same drive step size as WB1=0.625"/step
+                                                        ! 264*0.625*2.54=419.1 cm
+  mat aic      10.16 / thexp=6.9                        ! [1,Table 4.3-1]       
+  mat tungsten  0.0  W-182 1.670110E-02                 ! [1,Table 4.3-1]   
+                     W-183 9.019034E-03                 ! isotopics and TEC from NIST
+                     W-184 1.931077E-02                 ! converted to number density for 19.24 g/cc
+                     W-186 1.791785E-02                 ! W-180 not in xsec library
+                     / thexp=4.6
+
+  cell W 0.250 0.394 0.419 0.484 / tungsten inc he ss   ! [1,Table 4.3-1]
+  cell T       0.394 0.419 0.484 /          inc he ss   ! [1.Figure 4.2-11] gray tip or spacer
+  cell A       0.433 0.437 0.484 /    aic       he ss   ! [1,Table 4.3-1]
+  cell P             0.437 0.484 /              he ss   ! plenum (spring ignored)
+  cell G                   0.484 /                 ss   ! end plug
+
+  rodmap W
+    -
+    - -
+    - - -
+    W - - W 
+    - - - - -
+    - - - - - W 
+    W - - W - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap TIP
+    -
+    - -
+    - - -
+    T - - T 
+    - - - - -
+    - - - - - T 
+    T - - T - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap AIC
+    -
+    - -
+    - - -
+    A - - A 
+    - - - - -
+    - - - - - A 
+    A - - A - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap PLEN
+    -
+    - -
+    - - -
+    P - - P  
+    - - - - -
+    - - - - - P  
+    P - - P - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+  rodmap PLUG
+    -
+    - -
+    - - -
+    G - - G  
+    - - - - -
+    - - - - - G  
+    G - - G - - -
+    - - - - - - - -
+    - - - - - - - - -
+
+! - the bottom of the control rod end plugs are assumed to line up
+!   with the top of the active fuel when the rods are fully withdrawn
+!   no other information is available
+
+  axial G  28.33 PLUG 30.87 TIP 91.83 W   452.51 PLEN 469.3 ! [1,Figure 4.2-11] 142", assume 1" end plug
+  axial B  28.33 PLUG 30.87           AIC 452.51 PLEN 469.3 ! [1,Figure 4.2-10] 166", assume 1" end plug
+
+[EDITS]  
+  axial_edit_bounds
+      20.71
+      30.87
+      41.03
+      53.412
+      59.128
+      61.35
+      70.24
+      79.13
+      87.491        
+      95.851
+     104.212
+     109.928
+     121.199
+     132.47
+     143.741
+     155.012
+     160.728
+     171.999
+     183.27
+     194.541
+     205.812
+     211.528
+     222.299
+     233.07
+     235.07
+     245.841
+     256.612
+     262.328
+     273.099
+     283.87
+     285.87
+     296.641
+     307.412
+     313.128
+     324.669
+     336.21
+     338.21
+     347.1
+     355.99
+     358.212
+     363.928
+     374.699
+     385.47
+     387.47
+     398.241
+     409.012
+     414.728
+     427.11
+     437.27
+     447.43
+[MPACT]  
+  num_space 1200
+[RUN]
+  walltime 24
+
+!------------------------------------------------------------------------------
+! 
+! Inlet temps:
+!   1. Nominal inlet 535 F            [1,Table 4.4-1]
+!   2. Inlet 536.8 F                  [1,Table 4.4-1,Note l]
+!   3. "Hot means 557 F, 2250 psi"    [1,Table 4.3-2,Note e]
+!

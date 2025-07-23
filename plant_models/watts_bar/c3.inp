@@ -1,0 +1,742 @@
+[CASEID]
+  title 'CASL VERA Progression Problems - Watts Bar Unit 1 Cycle 3 - Public'
+
+[STATE]
+  title  'WBN1C3 Fuel Cycle Shuffle and Depletion'
+
+  power    1e-8
+  flow     100.0   
+  tinlet   557.0 F       
+  pressure 2250   
+  boron    1565
+  rodbank  D 230  C 230  B 230  A 230  SD 230  SC 230  SB 230  SA 230
+
+  sym      qtr  
+  search   boron
+  feedback on  
+  excore_transport off
+
+  thexp on
+  thexp_tmod  585 K
+  thexp_tclad 600 K
+  thexp_tfuel 900 K
+
+  restart_shuffle c2.res EOC
+                  c1.res EOC             ! center assembly from Cycle 1
+
+  shuffle_homog center
+  shuffle_label
+    1A-10 H-6 +    L-5  N-13 D-8  +    J-9
+    F-8  +    D-13 +    B-7  +    +    M-10
+    +    C-12 L-2  N-11 +    G-11 +    M-2
+    E-5  +    E-3  +    J-3  +    +    A-5
+    N-3  J-14 +    N-7  E-2  +    P-10
+    H-12 +    E-9  +    +    +    G-15
+    +    +    +    +    F-2  A-9
+    J-7  F-4  P-4  L-15
+
+[STATE]
+  restart_write c3.res BOC
+
+[STATE]
+  power    100.0
+  rodbank  D 216
+  deplete  EFPD 5.1
+  xenon    equil
+
+[STATE]
+  rodbank  D 219
+  deplete  EFPD  18.1  30.5  58.7  86.4  91.8 114.8
+                142.7 152.3 184.6 212.7 240.6 268.7
+                296.7 324.5 352.7 380.7 408.5 436.7
+                464.1 474.4
+
+[STATE] 
+  power 85.9 
+  rodbank D 228
+  deplete EFPD 491.3 
+
+[STATE] 
+  deplete EFPD 505.3 ; power 75.8
+        restart_write c3.res EOC
+        op_date 9/10/2000
+
+[CORE]
+  name   WBN              ! Watts Bar Nuclear
+  unit   1 
+  cycle  3
+  size   15
+  apitch 21.5
+  rated  3411 131.68     ! MW, Mlbs/hr 
+  height 406.337
+  bc_sym rot
+
+  op_date  4/16/1999    ! cycle 3 startup date
+
+  xlabel  R P N M L K J H G  F  E  D  C  B  A
+  ylabel  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
+  core_shape
+    0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+    0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+
+ assm_map
+    B3
+    128L   5B128I
+    5A128I 104I   48I
+    128L   5B128I 128I     5B128I
+    0I     48I    5B128I   128L    48I
+    128I   5A104I 104I     5A128I  5B128I 5B16I
+    5A104I 5B128I 5B128I   5B16I   48I    B2
+    104I   104I   B3       B2
+
+ insert_map
+    -
+   TP 8W
+    - TP  -
+   TP 8W TP  -
+    - TP TP TP  -
+   TP  - TP  - TP TP
+    - TP  - TP  - TP
+   TP TP TP TP
+
+  crd_map
+    1 
+    - - 
+    1 - 1 
+    - - - 1 
+    1 - - - 1 
+    - 1 - 1 - - 
+    1 - 1 - 1 - 
+    - - - - 
+ 
+  crd_bank
+    D  -  A  -  D  -  C  -
+    -  -  -  -  - SB  -  -
+    A  -  C  -  -  -  B  -
+    -  -  -  A  - SC  -  -
+    D  -  -  -  D  - SA 
+    - SB  - SD  -  -  - 
+    C  -  B  - SA  - 
+    -  -  -  -
+
+   det_map 193*2
+!  det_map
+!            - - 1 - - 1 - 
+!        1 - - 1 - 1 - - - - - 
+!      - - - - - - 1 - 1 - 1 - 1
+!      1 1 - - - - 1 - - - - - -
+!    - - - - 1 - - - 1 - 1 - 1 - -
+!    1 - 1 - - 1 - 1 - - - - - 1 -
+!    - - - 1 - - 1 - - 1 - - 1 - -
+!    1 - 1 - 1 - 1 - - 1 - 1 1 1 -
+!    - 1 - - - - - - 1 - 1 - - - 1
+!    - - - - 1 - 1 - - - - 1 - - -
+!    1 - - - 1 - - 1 - - 1 - - - 1
+!      - - - - 1 - - 1 - - 1 - - 
+!      - 1 - 1 - - 1 - - - - - 1 
+!        1 - - - 1 - - 1 - 1 - 
+!            1 - - 1 - - - 
+
+  baffle ss 0.19 2.85 
+
+  vessel  mod 187.96        ! barrel IR (cm)
+           ss 193.68        ! barrel OR (cm)
+          mod 219.15        ! vessel liner IR (cm)
+           ss 219.71        ! vessel liner OR / vessel IR (cm)
+           cs 241.70        ! vessel OR (cm)
+
+  pad ss  194.64 201.63 32 45 135 225 315 ! neutron pad ID,OD arc lenth (degrees), and angular positions (degrees)
+
+  lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
+  upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
+
+[ASSEMBLY]
+  title  "Westinghouse 17x17 Batches 1-3"
+  npin   17 
+  ppitch 1.260
+  
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
+  fuel U31 10.257 94.5 / 3.100 u-234=0.026347 
+
+  cell 1     0.4096 0.418 0.475 / U21 he zirc4
+  cell 2     0.4096 0.418 0.475 / U26 he zirc4
+  cell 3     0.4096 0.418 0.475 / U31 he zirc4
+
+  cell G            0.561 0.602 / mod    zirc4      ! guide/instrument tube
+  cell P            0.418 0.475 /     he zirc4      ! plenum
+  cell C                  0.475 /        zirc4      ! end plug / cap
+  cell M                  0.475 /        mod        ! empty
+
+  rodmap B1_FUEL
+       G
+       1 1
+       1 1 1
+       G 1 1 G
+       1 1 1 1 1
+       1 1 1 1 1 G
+       G 1 1 G 1 1 1
+       1 1 1 1 1 1 1 1
+       1 1 1 1 1 1 1 1 1
+
+  rodmap B2_FUEL
+       G
+       2 2
+       2 2 2
+       G 2 2 G
+       2 2 2 2 2
+       2 2 2 2 2 G
+       G 2 2 G 2 2 2
+       2 2 2 2 2 2 2 2
+       2 2 2 2 2 2 2 2 2
+
+  rodmap B3_FUEL
+       G
+       3 3
+       3 3 3
+       G 3 3 G
+       3 3 3 3 3
+       3 3 3 3 3 G
+       G 3 3 G 3 3 3
+       3 3 3 3 3 3 3 3
+       3 3 3 3 3 3 3 3 3
+
+  rodmap PLEN
+       G
+       P P
+       P P P
+       G P P G
+       P P P P P
+       P P P P P G
+       G P P G P P P
+       P P P P P P P P
+       P P P P P P P P P
+
+  rodmap PLUG
+       G
+       C C
+       C C C
+       G C C G
+       C C C C C
+       C C C C C G
+       G C C G C C C
+       C C C C C C C C
+       C C C C C C C C C
+
+  rodmap GAP 
+       G
+       M M
+       M M M
+       G M M G
+       M M M M M
+       M M M M M G
+       G M M G M M M
+       M M M M M M M M
+       M M M M M M M M M
+
+  axial B1  6.053 GAP 10.281 PLUG 11.951 B1_FUEL 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial B2  6.053 GAP 10.281 PLUG 11.951 B2_FUEL 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial B3  6.053 GAP 10.281 PLUG 11.951 B3_FUEL 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+
+  grid END inc    3.866 1017 
+  grid MID zirc4  3.810 875  
+
+  grid_axial
+      END  13.884
+      MID  75.2
+      MID 127.4
+      MID 179.6
+      MID 231.8
+      MID 284.0
+      MID 336.2
+      END 388.2
+
+  lower_nozzle  ss 6.053 6250.0  ! mat, height, mass (g)
+  upper_nozzle  ss 8.827 6250.0  ! mat, height, mass (g)
+
+!--- Batch 4 assemblies
+
+  fuel U37 10.257 94.5 / 3.709 u-234=0.031999
+  fuel BKT 10.257 94.5 / 2.613 u-234=0.021892
+
+  mat ifba 3.85  zr   0.81306 
+                 b-10 0.09347 
+                 b-11 0.09347
+
+  cell F   0.4096        0.418 0.475 / U37      he zirc4
+  cell X   0.4096 0.4106 0.418 0.475 / U37 ifba he zirc4
+  cell B   0.4096        0.418 0.475 / BKT      he zirc4
+
+  rodmap NOIFBA
+       G
+       F F
+       F F F
+       G F F G
+       F F F F F
+       F F F F F G
+       G F F G F F F
+       F F F F F F F F
+       F F F F F F F F F
+
+  rodmap 48IFBA
+       G
+       X F
+       F F F
+       G X F G
+       F F F X F
+       F F F F X G
+       G X F G X F F
+       F F F F F F F F
+       F F F F F F F F X
+
+  rodmap 104IFBA
+       G
+       X F
+       X F F
+       G X X G
+       X F F X F
+       X F F X X G
+       G X X G X X F
+       X F F X F F F F
+       F F F F F F F F X
+
+  rodmap 128IFBA
+       G
+       X F
+       X F F
+       G X X G
+       X F F X F
+       X F F X X G
+       G X X G X X F
+       X F F X F F X F
+       F X F F X F F F X
+
+  rodmap BLKT 
+       G
+       B B
+       B B B
+       G B B G
+       B B B B B
+       B B B B B G
+       G B B G B B B
+       B B B B B B B B
+       B B B B B B B B B
+
+  axial   0I 6.053 GAP 10.281 PLUG 11.951 BLKT 27.191                NOIFBA                362.471 BLKT 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial  48I 6.053 GAP 10.281 PLUG 11.951 BLKT 27.191 NOIFBA 42.431  48IFBA 347.231 NOIFBA 362.471 BLKT 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial 104I 6.053 GAP 10.281 PLUG 11.951 BLKT 27.191 NOIFBA 42.431 104IFBA 347.231 NOIFBA 362.471 BLKT 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial 128I 6.053 GAP 10.281 PLUG 11.951 BLKT 27.191 NOIFBA 42.431 128IFBA 347.231 NOIFBA 362.471 BLKT 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial 128L 6.053 GAP 10.281 PLUG 11.951 BLKT 27.191               128IFBA                362.471 BLKT 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+
+!--- Batch 5 assemblies
+
+  fuel U38 10.257 94.5 / 3.807
+  fuel U44 10.257 94.5 / 4.401
+!  fuel BKT 10.257 94.5 / 2.613 - Assume same as Batch 4
+
+!  mat ifba 3.85  zr   0.81306  - Assume same as Batch 4
+!                 b-10 0.09347 
+!                 b-11 0.09347
+
+  cell FA         0.4096        0.418 0.475 /    U38      he zirc4
+  cell FB         0.4096        0.418 0.475 /    U44      he zirc4
+  cell FAI        0.4096 0.4106 0.418 0.475 /    U38 ifba he zirc4
+  cell FBI        0.4096 0.4106 0.418 0.475 /    U44 ifba he zirc4
+  cell B          0.4096        0.418 0.475 /    BKT      he zirc4
+  cell BI  0.1969 0.4096        0.418 0.475 / he BKT      he zirc4
+
+  rodmap B5A0I
+       G
+       FA FA
+       FA FA FA
+       G  FA FA G
+       FA FA FA FA FA
+       FA FA FA FA FA G
+       G  FA FA G  FA FA FA
+       FA FA FA FA FA FA FA FA
+       FA FA FA FA FA FA FA FA FA
+
+  rodmap B5B0I
+       G
+       FB FB
+       FB FB FB
+       G  FB FB G
+       FB FB FB FB FB
+       FB FB FB FB FB G
+       G  FB FB G  FB FB FB
+       FB FB FB FB FB FB FB FB
+       FB FB FB FB FB FB FB FB FB
+
+  rodmap B5A104I
+       G
+       FAI FA
+       FAI FA  FA
+       G   FAI FAI G
+       FAI FA  FA  FAI FA
+       FAI FA  FA  FAI FAI G
+       G   FAI FAI G   FAI FAI FA
+       FAI FA  FA  FAI FA  FA  FA FA
+       FA  FA  FA  FA  FA  FA  FA FA FAI
+
+  rodmap B5A128I
+       G
+       FAI FA
+       FAI FA  FA
+       G   FAI FAI G
+       FAI FA  FA  FAI FA
+       FAI FA  FA  FAI FAI G
+       G   FAI FAI G   FAI FAI FA
+       FAI FA  FA  FAI FA  FA  FAI FA
+       FA  FAI FA  FA  FAI FA  FA  FA FAI
+
+  rodmap B5B16I
+       G
+       FB  FBI
+       FB  FB  FB
+       G   FB  FB  G
+       FB  FB  FB  FB  FBI
+       FB  FB  FB  FB  FB  G
+       G   FB  FBI G   FB  FB  FB
+       FB  FB  FB  FB  FB  FB  FB  FB
+       FB  FB  FB  FB  FB  FB  FB  FB FB 
+
+  rodmap B5B128I
+       G
+       FBI FB
+       FBI FB  FB
+       G   FBI FBI G
+       FBI FB  FB  FBI FB
+       FBI FB  FB  FBI FBI G
+       G   FBI FBI G   FBI FBI FB
+       FBI FB  FB  FBI FB  FB  FBI FB
+       FB  FBI FB  FB  FBI FB  FB  FB FBI
+
+  rodmap 5BLKT 
+       G
+       B B
+       B B B
+       G B B G
+       B B B B B
+       B B B B B G
+       G B B G B B B
+       B B B B B B B B
+       B B B B B B B B B
+
+  rodmap BL104I
+       G
+       BI B 
+       BI B  B 
+       G  BI BI G
+       BI B  B  BI B 
+       BI B  B  BI BI G
+       G  BI BI G  BI BI B 
+       BI B  B  BI B  B  B B 
+       B  B  B  B  B  B  B B BI 
+
+  rodmap BL128I
+       G
+       BI B 
+       BI B  B 
+       G  BI BI G
+       BI B  B  BI B 
+       BI B  B  BI BI G
+       G  BI BI G  BI BI B 
+       BI B  B  BI B  B  BI B 
+       B  BI B  B  BI B  B  B BI 
+
+  rodmap BL16I
+       G
+       B  BI 
+       B  B  B 
+       G  B  B  G
+       B  B  B  B  BI 
+       B  B  B  B  B  G
+       G  B  BI G  B  B  B 
+       B  B  B  B  B  B  B  B 
+       B  B  B  B  B  B  B  B  B  
+
+  axial 5A104I 6.053 GAP 10.281 PLUG 11.951 BL104I 27.191 B5A0I 42.431 B5A104I 347.231 B5A0I 362.471 BL104I 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial 5A128I 6.053 GAP 10.281 PLUG 11.951 BL128I 27.191 B5A0I 42.431 B5A128I 347.231 B5A0I 362.471 BL128I 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+                                                                                                           
+  axial 5B16I  6.053 GAP 10.281 PLUG 11.951 BL16I  27.191 B5B0I 42.431 B5B16I  347.231 B5B0I 362.471 BL16I  377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial 5B128I 6.053 GAP 10.281 PLUG 11.951 BL128I 27.191 B5B0I 42.431 B5B128I 347.231 B5B0I 362.471 BL128I 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+
+[INSERT]
+  title "Westinghouse Wet Annular Burnable Absorber (WABA)"
+  npin  17
+
+  mat waba   3.65   b4c 0.0949 
+                  al2o3 0.9051 
+
+  cell X  0.286 0.339 0.353 0.404 0.418 0.484 / mod zirc4 he waba he zirc4
+  cell P  0.286 0.339             0.418 0.484 / mod zirc4         he zirc4  ! plenum
+  cell G  0.286                         0.484 / mod                  zirc4  ! plug/cap
+  cell T                                0.538 /                         ss  ! thimble plug
+
+  rodmap  LAT4
+     -
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - X
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT8 
+     -
+     - -
+     - - -
+     X - - -
+     - - - - -
+     - - - - - X
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLEN4
+     -
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - P
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLEN8 
+     -
+     - -
+     - - -
+     P - - -
+     - - - - -
+     - - - - - P
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLUG4
+     -
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - G 
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLUG8
+     -
+     - -
+     - - -
+     G - - -
+     - - - - -
+     - - - - - G
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLPG4
+     -
+     - -
+     - - -
+     T - - T
+     - - - - -
+     - - - - - P
+     T - - T - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLPG8 
+     -
+     - -
+     - - -
+     P - - T
+     - - - - -
+     - - - - - P
+     T - - T - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TP24  
+     -
+     - -
+     - - -
+     T - - T
+     - - - - -
+     - - - - - T
+     T - - T - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+   axial  4W  24.651 PLUG4 27.191 LAT4 362.471 PLEN4 383.31 PLPG4 394.31
+   axial  8W  24.651 PLUG8 27.191 LAT8 362.471 PLEN8 383.31 PLPG8 394.31
+   axial  TP                                         383.31  TP24 394.31
+
+[CONTROL]
+  title "B4C with AIC tips"
+  npin 17
+  stroke  365.125 230     ! approx for 1.5875 step sizes and 230 max stroke
+
+  cell A  0.382 0.386 0.484 / aic he ss
+  cell B  0.373 0.386 0.484 / b4c he ss
+  cell P        0.386 0.484 /     he ss ! plenum
+  cell G              0.484 /        ss ! plug   
+
+  rodmap AIC
+     -
+     - -
+     - - -
+     A - - A
+     - - - - -
+     - - - - - A
+     A - - A - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap B4C
+     -
+     - -
+     - - -
+     B - - B
+     - - - - -
+     - - - - - B
+     B - - B - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap PLEN
+     -
+     - -
+     - - -
+     P - - P
+     - - - - -
+     - - - - - P
+     P - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap PLUG
+     -
+     - -
+     - - -
+     G - - G
+     - - - - -
+     - - - - - G
+     G - - G - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial  1    15.131
+        PLUG  17.031 
+         AIC 118.631 
+         B4C 377.711 
+        PLEN 388.411
+        PLUG 390.311
+
+[DETECTOR]
+  title "Incore instrument thimble"
+  npin 17
+  type u235
+
+  cell 1  0.258 0.382 / he ss
+  cell 2        0.382 /   mod
+
+  rodmap  LAT  
+     1
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - -
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT2
+     2
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - -
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial 1  0.0 LAT  397.51 
+  axial 2  0.0 LAT2 397.51 
+
+[EDITS]
+  axial_edit_bounds 
+       11.951
+       15.817
+       27.191
+       34.811
+       42.431
+       50.147
+       57.863
+       65.579
+       73.295
+       77.105
+       85.17
+       93.235
+       101.3
+       109.365
+       117.43
+       125.495
+       129.305
+       137.37
+       145.435
+       153.5
+       161.565
+       169.63
+       177.695
+       181.505
+       189.57
+       197.635
+       205.7
+       213.765
+       221.83
+       229.895
+       233.705
+       241.77
+       249.835
+       257.9
+       265.965
+       274.03
+       282.095
+       285.905
+       293.97
+       302.035
+       310.1
+       318.165
+       326.23
+       334.295
+       338.105
+       347.231
+       354.851
+       362.471
+       370.091
+       377.711
+     
+[MPACT]
+  num_space   1392
+
